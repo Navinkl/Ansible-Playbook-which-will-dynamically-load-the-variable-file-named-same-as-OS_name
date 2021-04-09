@@ -1,0 +1,22 @@
+- name: "Configure os_name"
+  hosts: all
+  vars_files: 
+        - "{{ ansible_facts['distribution'] }}-{{ ansible_facts['distribution_major_version'] }}.yml"
+  tasks:
+  - name: "Install apache webserver"
+    package:
+        name: "{{ package_name }}"
+        state: present
+
+  - name: "copy webpage"
+    template:
+        src: "index.html.j2"
+        dest: "/var/www/html/index.html"
+
+  - name: "start httpd services"
+    service:
+        name: "{{ service_name }}"
+        state: started
+
+
+
